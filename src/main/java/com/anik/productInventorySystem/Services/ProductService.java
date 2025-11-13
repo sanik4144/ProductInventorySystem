@@ -43,4 +43,16 @@ public class ProductService {
         productRepo.delete(productToDelete);
         return "Product Deleted";
     }
+
+    public String updateProduct(Long id, ProductRequest updatedProduct){
+        Product productToUpdate = showProductById(id);
+
+        productToUpdate.setName(updatedProduct.getName());
+        productToUpdate.setDescription(updatedProduct.getDescription());
+        productToUpdate.setPrice(updatedProduct.getPrice());
+        productToUpdate.setQuantity(updatedProduct.getQuantity());
+
+        productRepo.save(productToUpdate);
+        return "Product Updated";
+    }
 }

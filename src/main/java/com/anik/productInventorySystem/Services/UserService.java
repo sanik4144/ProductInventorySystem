@@ -6,7 +6,7 @@ import com.anik.productInventorySystem.Entities.User;
 import com.anik.productInventorySystem.Repositories.RoleRepo;
 import com.anik.productInventorySystem.Repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -18,8 +18,8 @@ public class UserService {
     UserRepo userRepo;
     @Autowired
     RoleRepo roleRepo;
-//    @Autowired
-//    PasswordEncoder passwordEncoder;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public String registerUser(RegisterRequest request){
         if(userRepo.findByUsername(request.getUsername()).isPresent()){
@@ -30,12 +30,12 @@ public class UserService {
                         .orElseThrow(() -> new RuntimeException("Role Not Found"));
 
 
-//        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         User user = new User();
         user.setUsername(request.getUsername());
-//        user.setPassword(encodedPassword);
-        user.setPassword(request.getPassword());
+        user.setPassword(encodedPassword);
+//        user.setPassword(request.getPassword());
         user.setEmail(request.getEmail());
 
         Set<Role> roles = new HashSet<>();
