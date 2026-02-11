@@ -18,32 +18,33 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/products")
-    public ResponseEntity<String> addProducts(@RequestBody ProductRequest productRequest){
+    public ResponseEntity<String> addProducts(@RequestBody ProductRequest productRequest) {
         String product = productService.addProduct(productRequest);
         return ResponseEntity.ok(product);
     }
 
-    @PreAuthorize("hasRole('VIEWER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('VIEWER') or hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/products")
-    public List<Product> showAllProducts(){
+    public List<Product> showAllProducts() {
         return productService.showAllProducts();
     }
 
-    @PreAuthorize("hasRole('VIEWER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('VIEWER') or hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/products/{id}")
-    public Product showProductById(@PathVariable("id") Long id){
+    public Product showProductById(@PathVariable("id") Long id) {
         return productService.showProductById(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/products/{id}")
-    public String deleteProducts(@PathVariable("id") Long id){
+    public String deleteProducts(@PathVariable("id") Long id) {
         return productService.deleteProduct(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/products/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable("id") Long id, @RequestBody ProductRequest productToUpdate){
+    public ResponseEntity<String> updateProduct(@PathVariable("id") Long id,
+            @RequestBody ProductRequest productToUpdate) {
         String updatedProduct = productService.updateProduct(id, productToUpdate);
         return ResponseEntity.ok(updatedProduct);
     }
